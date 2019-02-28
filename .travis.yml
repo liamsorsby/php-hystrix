@@ -15,5 +15,5 @@ install:
 
 script:
   - composer validate --strict
-  - vendor/bin/phpunit
-  - vendor/bin/phpspec run
+  - bin/phpunit
+  - /bin/phpspec run
