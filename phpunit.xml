@@ -18,9 +18,4 @@
             <directory suffix=".php">./app</directory>
         </whitelist>
     </filter>
-    <logging>
-        <!-- and this is where your report will be written -->
-        <log type="coverage-html" target="./coverage/coverage.html" />
-        <log type="coverage-text" target="./coverage/coverage.text" />
-    </logging>
 </phpunit>
