@@ -16,8 +16,7 @@
         "ext-xdebug": "*"
     },
     "config": {
-        "bin-dir": "bin",
-        "php": "7.2"
+        "bin-dir": "bin"
     },
     "autoload": {
         "psr-0": {
