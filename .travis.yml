@@ -15,6 +15,6 @@ install:
 
 script:
   - composer validate --strict
-  - ./bin/phpunit
+  - ./bin/phpunit -c phpunit.xml
   - ./bin/phpspec run
   - ./bin/phpstan analyse src --level max
