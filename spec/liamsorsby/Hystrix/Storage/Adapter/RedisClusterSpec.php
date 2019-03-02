@@ -13,4 +13,11 @@ class RedisClusterSpec extends ObjectBehavior
     {
         $this->shouldHaveType(AbstractStorage::class);
     }
+
+    function it_should_construct_with_php_redis_instance()
+    {
+        $config = [];
+
+        $this->beConstructedWith($config);
+    }
 }
