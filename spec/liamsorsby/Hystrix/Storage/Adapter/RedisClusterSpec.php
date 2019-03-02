@@ -31,4 +31,20 @@ class RedisClusterSpec extends ObjectBehavior
         $this->createConnection($redisCluster)->shouldBeNull();
         $this->lock('service', 'value', 1000);
     }
+
+    function it_should_return_true_when_unlocking(\RedisCluster $redisCluster)
+    {
+        $redisCluster->del('service')->shouldBeCalledOnce();
+
+        $this->createConnection($redisCluster)->shouldBeNull();
+        $this->unlock('service');
+    }
+
+    function it_should_return_true_when_dataset_has_lock_load(\RedisCluster $redisCluster)
+    {
+        $redisCluster->get('service')->shouldBeCalledOnce();
+
+        $this->createConnection($redisCluster)->shouldBeNull();
+        $this->load('service');
+    }
 }

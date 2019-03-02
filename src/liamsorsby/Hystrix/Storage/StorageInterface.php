@@ -29,18 +29,6 @@ interface StorageInterface {
     public function load(string $service);
 
     /**
-     * Saves the circuit breaker status.
-     *
-     * @param   string  $service    The name of service.
-     * @param   string  $value      The value of the circuit breaker.
-     *
-     * @throws \liamsorsby\Hystrix\Storage\StorageException
-     *
-     * @return 	void
-     */
-    public function save(string $service, string $value);
-
-    /**
      * Creates a circuit breaker.
      *
      * @param   string  $service    The name of service.
@@ -57,11 +45,10 @@ interface StorageInterface {
      * Creates a circuit breaker.
      *
      * @param   string  $service    The name of service.
-     * @param   string  $value      The value of the circuit breaker.
      *
      * @throws \liamsorsby\Hystrix\Storage\StorageException
      *
      * @return 	boolean
      */
-    public function unlock(string $service, string $value): ?bool;
+    public function unlock(string $service): bool;
 }

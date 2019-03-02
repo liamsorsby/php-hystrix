@@ -27,15 +27,10 @@ abstract class AbstractStorage implements StorageInterface
     /**
      * {@inheritdoc}
      */
-    abstract public function save(string $service, string $value);
-
-    /**
-     * {@inheritdoc}
-     */
     abstract public function lock(string $service, string $value, int $ttl): ?bool;
 
     /**
      * {@inheritdoc}
      */
-    abstract public function unlock(string $service, string $value): ?bool;
+    abstract public function unlock(string $service): bool;
 }

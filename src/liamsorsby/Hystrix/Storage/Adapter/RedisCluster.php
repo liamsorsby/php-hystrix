@@ -33,15 +33,7 @@ class RedisCluster extends AbstractStorage
      */
     public function load(string $service)
     {
-        // TODO: Implement load() method.
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function save(string $service, string $value)
-    {
-        // TODO: Implement save() method.
+        return is_string($this->getStorage()->get($service));
     }
 
     /**
@@ -55,8 +47,8 @@ class RedisCluster extends AbstractStorage
     /**
      * {@inheritdoc}
      */
-    public function unlock(string $service, string $value): ?bool
+    public function unlock(string $service): bool
     {
-        // TODO: Implement unlock() method.
+        return (1 === $this->getStorage()->del($service));
     }
 }
