@@ -51,7 +51,7 @@ interface StorageInterface {
      *
      * @return 	bool
      */
-    public function lock(string $service, string $value, int $ttl) :bool;
+    public function lock(string $service, string $value, int $ttl): ?bool;
 
     /**
      * Creates a circuit breaker.
@@ -63,5 +63,5 @@ interface StorageInterface {
      *
      * @return 	boolean
      */
-    public function unlock(string $service, string $value) :bool;
+    public function unlock(string $service, string $value): ?bool;
 }

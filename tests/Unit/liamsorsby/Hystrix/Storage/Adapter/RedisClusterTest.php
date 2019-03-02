@@ -35,10 +35,14 @@ final class RedisClusterTest extends TestCase
         $this->assertTrue($underTest->getStorage() instanceof \RedisCluster);
     }
 
-    public function testRedisShouldBeCalledWithOptions() :void
+    public function testRedisLockWillReturnTrue() :void
     {
+        $this->redis->expects($this->once())
+            ->method('set')
+            ->willReturn(true);
+
         $underTest = new RedisCluster();
         $underTest->createConnection($this->redis);
-        $this->assertTrue($underTest->save('test', 'test'));
+        $this->assertTrue($underTest->lock('test', 'test', 1234));
     }
 }

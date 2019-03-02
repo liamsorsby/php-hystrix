@@ -26,7 +26,9 @@ class RedisClusterSpec extends ObjectBehavior
 
     function it_should_return_true_when_locking(\RedisCluster $redisCluster)
     {
-        $this->createConnection($redisCluster);
-        $this->lock('service', 'value', 1000)->shouldBe(true);
+        $redisCluster->set('service', 'value', ['NX', 'PX' => 1000])->shouldBeCalledOnce();
+
+        $this->createConnection($redisCluster)->shouldBeNull();
+        $this->lock('service', 'value', 1000);
     }
 }
