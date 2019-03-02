@@ -4,3 +4,7 @@ phpunit:
 	./bin/phpunit -c phpunit.xml
 phpstan:
 	./bin/phpstan analyse src --level max
+phpcs:
+	./bin/phpcs src
+phpcbf:
+	./bin/phpcbf src

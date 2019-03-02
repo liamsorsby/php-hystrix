@@ -1,15 +1,38 @@
 <?php
 
+/**
+ * RedisCluster implementation for php-hystrix.
+ *
+ * PHP version 7.2
+ *
+ * @category Adapter
+ * @package  Storage
+ * @author   Liam Sorsby <liam.sorsby@sky.com>
+ * @license  https://www.apache.org/licenses/LICENSE-2.0 Apache
+ * @link     https://github.org/liamsorsby/php-hystrix
+ *
+ * For the full copyright and license information, please view the LICENSE file.
+ */
+
 namespace liamsorsby\Hystrix\Storage\Adapter;
 
 use \RedisCluster as Redis;
 
+/**
+ * Class RedisCluster
+ *
+ * @category Adapter
+ * @package  Storage
+ * @author   Liam Sorsby <liam.sorsby@sky.com>
+ * @license  https://www.apache.org/licenses/LICENSE-2.0 Apache
+ * @link     https://github.org/liamsorsby/php-hystrix
+ */
 class RedisCluster extends AbstractStorage
 {
     /**
      * Assigns the redis object to the storage.
      *
-     * @param Redis $redis
+     * @param Redis $redis RedisCluster instance.
      *
      * @return void
      */
@@ -29,7 +52,11 @@ class RedisCluster extends AbstractStorage
     }
 
     /**
-     * {@inheritdoc}
+     * Load redis to check if redis lock is enabled or not.
+     *
+     * @param string $service Service name used for the circuit breaker.
+     *
+     * @return bool|string
      */
     public function load(string $service)
     {
@@ -37,7 +64,13 @@ class RedisCluster extends AbstractStorage
     }
 
     /**
-     * {@inheritdoc}
+     * Acquire a redis lock.
+     *
+     * @param string $service Service name for the circuit breaker.
+     * @param string $value   Value to save into the redis circuit breaker.
+     * @param int    $ttl     TTL of the redis lock.
+     *
+     * @return bool|null
      */
     public function lock(string $service, string $value, int $ttl): ?bool
     {
@@ -45,7 +78,11 @@ class RedisCluster extends AbstractStorage
     }
 
     /**
-     * {@inheritdoc}
+     * Remove the current lock.
+     *
+     * @param string $service Service name of the circuit breaker to remove.
+     *
+     * @return bool
      */
     public function unlock(string $service): bool
     {

@@ -15,3 +15,4 @@ script:
   - ./bin/phpunit -c phpunit.xml
   - ./bin/phpspec run
   - ./bin/phpstan analyse src --level max
+  - ./bin/phpcs src
