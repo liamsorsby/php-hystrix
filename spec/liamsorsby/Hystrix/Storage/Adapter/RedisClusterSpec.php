@@ -3,21 +3,48 @@
 namespace spec\liamsorsby\Hystrix\Storage\Adapter;
 
 use liamsorsby\Hystrix\Storage\Adapter\AbstractStorage;
-use liamsorsby\Hystrix\Storage\StorageInterface;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class RedisClusterSpec extends ObjectBehavior
 {
+
     function it_is_initializable()
     {
         $this->shouldHaveType(AbstractStorage::class);
     }
 
-    function it_should_construct_with_php_redis_instance()
+    function it_should_set_a_redis_instance_create_connection(\RedisCluster $redisCluster)
     {
-        $config = [];
+        $this->createConnection($redisCluster)->shouldBeNull();
+    }
 
-        $this->beConstructedWith($config);
+    function it_should_return_a_redis_cluster_instance(\RedisCluster $redisCluster)
+    {
+        $this->createConnection($redisCluster)->shouldBeNull();
+        $this->getStorage()->shouldBeAnInstanceOf(\RedisCluster::class);
+    }
+
+    function it_should_return_true_when_locking(\RedisCluster $redisCluster)
+    {
+        $redisCluster->set('service', 'value', ['NX', 'PX' => 1000])->shouldBeCalledOnce();
+
+        $this->createConnection($redisCluster)->shouldBeNull();
+        $this->lock('service', 'value', 1000);
+    }
+
+    function it_should_return_true_when_unlocking(\RedisCluster $redisCluster)
+    {
+        $redisCluster->del('service')->shouldBeCalledOnce();
+
+        $this->createConnection($redisCluster)->shouldBeNull();
+        $this->unlock('service');
+    }
+
+    function it_should_return_true_when_dataset_has_lock_load(\RedisCluster $redisCluster)
+    {
+        $redisCluster->get('service')->shouldBeCalledOnce();
+
+        $this->createConnection($redisCluster)->shouldBeNull();
+        $this->load('service');
     }
 }
