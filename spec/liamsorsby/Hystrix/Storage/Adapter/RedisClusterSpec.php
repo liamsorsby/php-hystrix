@@ -7,12 +7,6 @@ use PhpSpec\ObjectBehavior;
 
 class RedisClusterSpec extends ObjectBehavior
 {
-    function let()
-    {
-        $this->beConstructedWith([
-            "foo" => "bar"
-        ]);
-    }
 
     function it_is_initializable()
     {
@@ -28,5 +22,11 @@ class RedisClusterSpec extends ObjectBehavior
     {
         $this->createConnection($redisCluster)->shouldBeNull();
         $this->getStorage()->shouldBeAnInstanceOf(\RedisCluster::class);
+    }
+
+    function it_should_return_true_when_locking(\RedisCluster $redisCluster)
+    {
+        $this->createConnection($redisCluster);
+        $this->lock('service', 'value', 1000)->shouldBe(true);
     }
 }

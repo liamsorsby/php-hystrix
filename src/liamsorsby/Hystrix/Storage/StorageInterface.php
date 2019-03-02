@@ -26,7 +26,7 @@ interface StorageInterface {
      *
      * @return 	string  value stored or '' if value was not found
      */
-    public function load($service);
+    public function load(string $service);
 
     /**
      * Saves the circuit breaker status.
@@ -38,5 +38,30 @@ interface StorageInterface {
      *
      * @return 	void
      */
-    public function save($service, $value);
+    public function save(string $service, string $value);
+
+    /**
+     * Creates a circuit breaker.
+     *
+     * @param   string  $service    The name of service.
+     * @param   string  $value      The value of the circuit breaker.
+     * @param   int     $ttl        The ttl of the circuit breaker.
+     *
+     * @throws \liamsorsby\Hystrix\Storage\StorageException
+     *
+     * @return 	bool
+     */
+    public function lock(string $service, string $value, int $ttl) :bool;
+
+    /**
+     * Creates a circuit breaker.
+     *
+     * @param   string  $service    The name of service.
+     * @param   string  $value      The value of the circuit breaker.
+     *
+     * @throws \liamsorsby\Hystrix\Storage\StorageException
+     *
+     * @return 	boolean
+     */
+    public function unlock(string $service, string $value) :bool;
 }

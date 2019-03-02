@@ -7,14 +7,38 @@ use PHPUnit\Framework\TestCase;
 
 final class RedisClusterTest extends TestCase
 {
-    public function testGetStorageReturnsAnInstanceOfRedisCluster()
+    /**
+     * @var \RedisCluster
+     */
+    private $redis;
+
+    public function setUp(): void
     {
-        $redis = $this->getMockBuilder(\RedisCluster::class)
+        parent::setUp();
+
+        $this->redis = $this->getMockBuilder(\RedisCluster::class)
             ->disableOriginalConstructor()
             ->getMock();
+    }
 
-        $underTest = new RedisCluster([]);
-        $underTest->createConnection($redis);
+    public function tearDown(): void
+    {
+        parent::tearDown();
+
+        $this->redis = null;
+    }
+
+    public function testGetStorageReturnsAnInstanceOfRedisCluster() :void
+    {
+        $underTest = new RedisCluster();
+        $underTest->createConnection($this->redis);
         $this->assertTrue($underTest->getStorage() instanceof \RedisCluster);
+    }
+
+    public function testRedisShouldBeCalledWithOptions() :void
+    {
+        $underTest = new RedisCluster();
+        $underTest->createConnection($this->redis);
+        $this->assertTrue($underTest->save('test', 'test'));
     }
 }
