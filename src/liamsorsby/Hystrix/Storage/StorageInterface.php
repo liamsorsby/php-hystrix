@@ -22,7 +22,7 @@ interface StorageInterface {
      *
      * @param string  $service  The name of the service to load.
      *
-     * @throws liamsorsby\Hystrix\Storage\StorageException
+     * @throws \liamsorsby\Hystrix\Storage\StorageException
      *
      * @return 	string  value stored or '' if value was not found
      */
@@ -34,7 +34,7 @@ interface StorageInterface {
      * @param   string  $service    The name of service.
      * @param   string  $value      The value of the circuit breaker.
      *
-     * @throws liamsorsby\Hystrix\Storage\StorageException
+     * @throws \liamsorsby\Hystrix\Storage\StorageException
      *
      * @return 	void
      */

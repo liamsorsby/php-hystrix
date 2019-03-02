@@ -16,6 +16,11 @@ class AbstractStorageSpec extends ObjectBehavior
 
     function it_should_implement_storage_interface()
     {
-        $this->shouldBeAnInstanceOf(StorageInterface::class);
+        $this->shouldNotBeAnInstanceOf(StorageInterface::class);
+    }
+
+    function it_should_be_abstract()
+    {
+        $this->beConstructedWith([1234, 'prefix']);
     }
 }

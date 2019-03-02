@@ -14,6 +14,7 @@ namespace liamsorsby\Hystrix\Storage;
 /**
  * This exception is thrown if there is an issue
  * with the current storage implementation.
+ *
  */
 class StorageException extends \Exception {
 
