@@ -8,3 +8,7 @@ phpcs:
 	./bin/phpcs src
 phpcbf:
 	./bin/phpcbf src
+phpcpd:
+	./bin/phpcpd src
+phploc:
+	./bin/phploc src
