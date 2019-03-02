@@ -7,20 +7,10 @@ use liamsorsby\Hystrix\Storage\StorageInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class AbstractStorageSpec extends ObjectBehavior
+class RedisClusterSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
         $this->shouldHaveType(AbstractStorage::class);
-    }
-
-    function it_should_implement_storage_interface()
-    {
-        $this->shouldNotBeAnInstanceOf(StorageInterface::class);
-    }
-
-    function it_should_be_abstract()
-    {
-        $this->beConstructedWith([1234, 'prefix']);
     }
 }

@@ -13,11 +13,11 @@
         "phpunit/phpunit": "^8.0",
         "phpspec/phpspec": "^3.0",
         "phpstan/phpstan": "^0.11.2",
-        "php": "^7.0",
         "ext-xdebug": "*"
     },
     "config": {
-        "bin-dir": "bin"
+        "bin-dir": "bin",
+        "php": "7.2"
     },
     "autoload": {
         "psr-0": {
