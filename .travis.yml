@@ -14,6 +14,6 @@ script:
   - composer validate --strict
   - ./bin/phpunit -c phpunit.xml
   - ./bin/phpspec run
-  - ./bin/phpstan analyse src --level max
+  - ./bin/phpstan analyse src --level 4
   - ./bin/phpcs src
   - ./bin/phpcpd src
