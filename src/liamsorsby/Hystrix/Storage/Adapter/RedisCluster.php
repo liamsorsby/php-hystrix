@@ -36,7 +36,7 @@ class RedisCluster extends AbstractStorage
      *
      * @return void
      */
-    public function createConnection(Redis $redis) :void
+    public function __construct(Redis $redis)
     {
         $this->storage = $redis;
     }
@@ -56,9 +56,9 @@ class RedisCluster extends AbstractStorage
      *
      * @param string $service Service name used for the circuit breaker.
      *
-     * @return bool|string
+     * @return bool
      */
-    public function load(string $service)
+    public function load(string $service): bool
     {
         return is_string($this->getStorage()->get($service));
     }

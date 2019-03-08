@@ -40,7 +40,7 @@ abstract class AbstractStorage implements StorageInterface
     /**
      * Abstract function for returning the storage instance
      *
-     * @return mixed
+     * @return object
      */
     abstract public function getStorage();
 
@@ -49,9 +49,9 @@ abstract class AbstractStorage implements StorageInterface
      *
      * @param string $service Service name to use for the circuit breaker.
      *
-     * @return string
+     * @return bool
      */
-    abstract public function load(string $service);
+    abstract public function load(string $service): bool;
 
     /**
      * Acquire a lock within the desired adapter.

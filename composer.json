@@ -10,6 +10,7 @@
     }
   ],
   "require-dev": {
+    "cache/apcu-adapter": "^1.0",
     "ext-redis": "^4.2.0",
     "phploc/phploc": "^4.0",
     "phpspec/phpspec": "^3.0",
@@ -20,7 +21,8 @@
     "squizlabs/php_codesniffer": "^3.4"
   },
   "suggest": {
-    "ext-redis": "^4.2.0"
+    "ext-redis": "^4.2.0",
+    "ext-apcu": "^4.2.0"
   },
   "config": {
     "bin-dir": "bin",

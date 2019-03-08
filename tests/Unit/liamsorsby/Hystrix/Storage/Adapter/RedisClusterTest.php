@@ -30,8 +30,7 @@ final class RedisClusterTest extends TestCase
 
     public function testGetStorageReturnsAnInstanceOfRedisCluster() :void
     {
-        $underTest = new RedisCluster();
-        $underTest->createConnection($this->redis);
+        $underTest = new RedisCluster($this->redis);
         $this->assertTrue($underTest->getStorage() instanceof \RedisCluster);
     }
 
@@ -41,8 +40,7 @@ final class RedisClusterTest extends TestCase
             ->method('set')
             ->willReturn(true);
 
-        $underTest = new RedisCluster();
-        $underTest->createConnection($this->redis);
+        $underTest = new RedisCluster($this->redis);
         $this->assertTrue($underTest->lock('test', 'test', 1234));
     }
 
@@ -59,8 +57,7 @@ final class RedisClusterTest extends TestCase
             ->method('del')
             ->willReturn(1);
 
-        $underTest = new RedisCluster();
-        $underTest->createConnection($this->redis);
+        $underTest = new RedisCluster($this->redis);
         $this->assertTrue($underTest->unlock('foo'));
     }
 
@@ -80,8 +77,7 @@ final class RedisClusterTest extends TestCase
             ->method('get')
             ->willReturn($value);
 
-        $underTest = new RedisCluster();
-        $underTest->createConnection($this->redis);
+        $underTest = new RedisCluster($this->redis);
 
         $this->assertEquals($expected, $underTest->load('foo-bar'));
     }
