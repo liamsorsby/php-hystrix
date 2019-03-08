@@ -2,13 +2,14 @@
 
 namespace tests\Unit\liamsorsby\Hystrix\Storage\Adapter;
 
+use Cache\Adapter\Redis\RedisCachePool;
 use liamsorsby\Hystrix\Storage\Adapter\RedisCluster;
 use PHPUnit\Framework\TestCase;
 
 final class RedisClusterTest extends TestCase
 {
     /**
-     * @var \RedisCluster
+     * @var RedisCachePool
      */
     private $redis;
 
@@ -16,7 +17,7 @@ final class RedisClusterTest extends TestCase
     {
         parent::setUp();
 
-        $this->redis = $this->getMockBuilder(\RedisCluster::class)
+        $this->redis = $this->getMockBuilder(RedisCachePool::class)
             ->disableOriginalConstructor()
             ->getMock();
     }
@@ -30,8 +31,9 @@ final class RedisClusterTest extends TestCase
 
     public function testGetStorageReturnsAnInstanceOfRedisCluster() :void
     {
-        $underTest = new RedisCluster($this->redis);
-        $this->assertTrue($underTest->getStorage() instanceof \RedisCluster);
+        $underTest = new RedisCluster();
+        $underTest->setStorage($this->redis);
+        $this->assertTrue($underTest->getStorage() instanceof RedisCachePool);
     }
 
     public function testRedisLockWillReturnTrue() :void
@@ -40,7 +42,8 @@ final class RedisClusterTest extends TestCase
             ->method('set')
             ->willReturn(true);
 
-        $underTest = new RedisCluster($this->redis);
+        $underTest = new RedisCluster();
+        $underTest->setStorage($this->redis);
         $this->assertTrue($underTest->lock('test', 'test', 1234));
     }
 
@@ -54,10 +57,11 @@ final class RedisClusterTest extends TestCase
     public function testRedisUnlockWillReturnTrue() :void
     {
         $this->redis->expects($this->once())
-            ->method('del')
+            ->method('delete')
             ->willReturn(1);
 
-        $underTest = new RedisCluster($this->redis);
+        $underTest = new RedisCluster();
+        $underTest->setStorage($this->redis);
         $this->assertTrue($underTest->unlock('foo'));
     }
 
@@ -77,7 +81,8 @@ final class RedisClusterTest extends TestCase
             ->method('get')
             ->willReturn($value);
 
-        $underTest = new RedisCluster($this->redis);
+        $underTest = new RedisCluster();
+        $underTest->setStorage($this->redis);
 
         $this->assertEquals($expected, $underTest->load('foo-bar'));
     }

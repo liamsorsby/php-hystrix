@@ -32,7 +32,8 @@ final class ApcTest extends TestCase
 
     public function testGetStorageReturnsAnInstanceOfRedisCluster() :void
     {
-        $underTest = new Apc($this->apcu);
+        $underTest = new Apc();
+        $underTest->setStorage($this->apcu);
         $this->assertTrue($underTest->getStorage() instanceof ApcuCachePool);
     }
 
@@ -42,7 +43,8 @@ final class ApcTest extends TestCase
             ->method('set')
             ->willReturn(true);
 
-        $underTest = new Apc($this->apcu);
+        $underTest = new Apc();
+        $underTest->setStorage($this->apcu);
         $this->assertTrue($underTest->lock('test', 'test', 1234));
     }
 
@@ -52,7 +54,8 @@ final class ApcTest extends TestCase
             ->method('set')
             ->will($this->throwException(new \Exception()));
 
-        $underTest = new Apc($this->apcu);
+        $underTest = new Apc();
+        $underTest->setStorage($this->apcu);
         $this->assertFalse($underTest->lock('test', 'test', 1234));
     }
 
@@ -62,7 +65,8 @@ final class ApcTest extends TestCase
             ->method('delete')
             ->willReturn(true);
 
-        $underTest = new Apc($this->apcu);
+        $underTest = new Apc();
+        $underTest->setStorage($this->apcu);
         $this->assertTrue($underTest->unlock('test'));
     }
 
@@ -72,7 +76,8 @@ final class ApcTest extends TestCase
             ->method('delete')
             ->will($this->throwException(new \Exception()));
 
-        $underTest = new Apc($this->apcu);
+        $underTest = new Apc();
+        $underTest->setStorage($this->apcu);
         $this->assertFalse($underTest->unlock('test'));
     }
 
@@ -82,7 +87,8 @@ final class ApcTest extends TestCase
             ->method('get')
             ->willReturn(true);
 
-        $underTest = new Apc($this->apcu);
+        $underTest = new Apc();
+        $underTest->setStorage($this->apcu);
         $this->assertTrue($underTest->load('test'));
     }
 
@@ -92,7 +98,8 @@ final class ApcTest extends TestCase
             ->method('get')
             ->will($this->throwException(new \Exception()));
 
-        $underTest = new Apc($this->apcu);
+        $underTest = new Apc();
+        $underTest->setStorage($this->apcu);
         $this->assertFalse($underTest->load('test'));
     }
 

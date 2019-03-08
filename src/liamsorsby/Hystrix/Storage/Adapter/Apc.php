@@ -16,7 +16,6 @@
 
 namespace liamsorsby\Hystrix\Storage\Adapter;
 
-use Cache\Adapter\Apcu\ApcuCachePool;
 use \Psr\SimpleCache\InvalidArgumentException;
 
 /**
@@ -31,33 +30,13 @@ use \Psr\SimpleCache\InvalidArgumentException;
 class Apc extends AbstractStorage
 {
     /**
-     * Assigns the redis object to the storage.
-     *
-     * @param ApcuCachePool $apcu Apcu wrapper instance.
-     *
-     * @return void
-     */
-    public function __construct(ApcuCachePool $apcu)
-    {
-        $this->storage = $apcu;
-    }
-
-    /**
-     * Get storage object.
-     *
-     * @return ApcuCachePool
-     */
-    public function getStorage(): ApcuCachePool
-    {
-        return $this->storage;
-    }
-
-    /**
      * Acquire an APC lock.
      *
      * @param string $service
      * @param string $value
      * @param int $ttl
+     *
+     * @throws InvalidArgumentException
      *
      * @return bool
      */
@@ -75,6 +54,8 @@ class Apc extends AbstractStorage
      *
      * @param string $service
      *
+     * @throws InvalidArgumentException
+     *
      * @return bool
      */
     public function unlock(string $service): bool
@@ -90,6 +71,8 @@ class Apc extends AbstractStorage
      * Load APC to check if a lock is enabled or not.
      *
      * @param string $service
+     *
+     * @throws InvalidArgumentException
      *
      * @return bool
      */

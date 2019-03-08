@@ -16,8 +16,6 @@
 
 namespace liamsorsby\Hystrix\Storage\Adapter;
 
-use \RedisCluster as Redis;
-
 /**
  * Class RedisCluster
  *
@@ -30,31 +28,11 @@ use \RedisCluster as Redis;
 class RedisCluster extends AbstractStorage
 {
     /**
-     * Assigns the redis object to the storage.
-     *
-     * @param Redis $redis RedisCluster instance.
-     *
-     * @return void
-     */
-    public function __construct(Redis $redis)
-    {
-        $this->storage = $redis;
-    }
-
-    /**
-     * Get storage object.
-     *
-     * @return Redis
-     */
-    public function getStorage() :Redis
-    {
-        return $this->storage;
-    }
-
-    /**
      * Load redis to check if redis lock is enabled or not.
      *
      * @param string $service Service name used for the circuit breaker.
+     *
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      *
      * @return bool
      */
@@ -70,6 +48,8 @@ class RedisCluster extends AbstractStorage
      * @param string $value   Value to save into the redis circuit breaker.
      * @param int    $ttl     TTL of the redis lock.
      *
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     *
      * @return bool|null
      */
     public function lock(string $service, string $value, int $ttl): ?bool
@@ -82,10 +62,12 @@ class RedisCluster extends AbstractStorage
      *
      * @param string $service Service name of the circuit breaker to remove.
      *
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     *
      * @return bool
      */
     public function unlock(string $service): bool
     {
-        return (1 === $this->getStorage()->del($service));
+        return $this->getStorage()->delete($service);
     }
 }
