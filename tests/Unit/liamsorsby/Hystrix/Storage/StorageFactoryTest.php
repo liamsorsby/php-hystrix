@@ -53,7 +53,7 @@ class StorageFactoryTest extends TestCase
             ->method('createRedisCluster')
             ->will($this->returnValue($redis));
 
-        $storage = $factory->create(StorageFactory::RedisCluster, []);
+        $storage = $factory->create(StorageFactory::REDISCLUSTER, []);
 
         $this->assertTrue($storage instanceof AbstractStorage);
     }
