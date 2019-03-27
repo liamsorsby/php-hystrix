@@ -13,7 +13,7 @@
   "require-dev": {
     "ext-redis": "^4.2.0",
     "phploc/phploc": "^4.0",
-    "phpspec/phpspec": "^3.0",
+    "phpspec/phpspec": "^3.0 || ^5.0",
     "phpstan/phpstan": "^0.11.2",
     "phpunit/phpunit": "^8.0",
     "sebastian/phpcpd": "^4.1",
