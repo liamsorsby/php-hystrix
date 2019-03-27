@@ -36,7 +36,7 @@ interface StorageInterface
      *
      * @throws \liamsorsby\Hystrix\Storage\StorageException
      *
-     * @return string  value stored or '' if value was not found
+     * @return bool  value stored value was not found
      */
     public function load(string $service);
 

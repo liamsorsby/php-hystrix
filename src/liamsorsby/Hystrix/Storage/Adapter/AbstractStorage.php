@@ -18,6 +18,7 @@ namespace liamsorsby\Hystrix\Storage\Adapter;
 
 use liamsorsby\Hystrix\Storage\liamsorsby;
 use liamsorsby\Hystrix\Storage\StorageInterface;
+use Cache\Adapter\Common\AbstractCachePool;
 
 /**
  * Class AbstractStorage
@@ -40,18 +41,33 @@ abstract class AbstractStorage implements StorageInterface
     /**
      * Abstract function for returning the storage instance
      *
-     * @return mixed
+     * @param AbstractCachePool $storage Storage name to set the storage too.
+     *
+     * @return void
      */
-    abstract public function getStorage();
+    public function setStorage(AbstractCachePool $storage): void
+    {
+        $this->storage = $storage;
+    }
+
+    /**
+     * Abstract function for returning the storage instance
+     *
+     * @return AbstractCachePool
+     */
+    public function getStorage(): AbstractCachePool
+    {
+        return $this->storage;
+    }
 
     /**
      * Load the current state of a circuit breaker.
      *
      * @param string $service Service name to use for the circuit breaker.
      *
-     * @return string
+     * @return bool
      */
-    abstract public function load(string $service);
+    abstract public function load(string $service): bool;
 
     /**
      * Acquire a lock within the desired adapter.

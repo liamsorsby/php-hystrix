@@ -1,0 +1,4 @@
+parameters:
+	ignoreErrors:
+		- '#PHPDoc tag @throws with type Psr\\SimpleCache\\InvalidArgumentException is not subtype of Throwable#'
+		- '#$ttl of method Cache\\Adapter\\Common\\AbstractCachePool::set() expects DateInterval|int|null, array<int|string, int|string> given.#'
