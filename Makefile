@@ -12,3 +12,5 @@ phpcpd:
 	./bin/phpcpd src
 phploc:
 	./bin/phploc src
+test:
+	make phpspec && make phpunit && make phpstan && make phpcs && make phpcbf && make phpcpd
