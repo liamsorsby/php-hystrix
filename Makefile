@@ -3,7 +3,7 @@ phpspec:
 phpunit:
 	./bin/phpunit -c phpunit.xml
 phpstan:
-	./bin/phpstan analyse src --level 4
+	./bin/phpstan analyse src --level max
 phpcs:
 	./bin/phpcs src
 phpcbf:

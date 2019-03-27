@@ -90,10 +90,10 @@ final class RedisClusterTest extends TestCase
     public function redisGetProvider(): array
     {
         return [
-            ['', true],
-            ['asd', true],
+            ['', false],
+            ['asd', false],
             [false, false],
-            [true, false],
+            [true, true],
             [null, false],
         ];
     }

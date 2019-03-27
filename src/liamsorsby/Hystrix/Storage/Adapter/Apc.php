@@ -32,9 +32,9 @@ class Apc extends AbstractStorage
     /**
      * Acquire an APC lock.
      *
-     * @param string $service
-     * @param string $value
-     * @param int $ttl
+     * @param string $service Name of the lock
+     * @param string $value   String to set the lock too
+     * @param int    $ttl     TTL to set on the lock
      *
      * @throws InvalidArgumentException
      *
@@ -52,7 +52,7 @@ class Apc extends AbstractStorage
     /**
      * Remove APC lock.
      *
-     * @param string $service
+     * @param string $service Name of the service to unlock.
      *
      * @throws InvalidArgumentException
      *
@@ -70,7 +70,7 @@ class Apc extends AbstractStorage
     /**
      * Load APC to check if a lock is enabled or not.
      *
-     * @param string $service
+     * @param string $service Name of the service to check if it has a lock.
      *
      * @throws InvalidArgumentException
      *

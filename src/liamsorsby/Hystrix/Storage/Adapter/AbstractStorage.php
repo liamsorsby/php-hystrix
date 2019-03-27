@@ -41,7 +41,7 @@ abstract class AbstractStorage implements StorageInterface
     /**
      * Abstract function for returning the storage instance
      *
-     * @param AbstractCachePool $storage
+     * @param AbstractCachePool $storage Storage name to set the storage too.
      *
      * @return void
      */
