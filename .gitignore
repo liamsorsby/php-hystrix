@@ -1,10 +1,9 @@
 composer.phar
 /vendor/
+bin
 
 .idea
 *.iml
 .DS_Store
-
-bin
 
 *.cache
