@@ -1,3 +1,4 @@
 # php-hystrix 
 
-[![Build Status](https://travis-ci.com/liamsorsby/php-hystrix.svg?branch=master)](https://travis-ci.com/liamsorsby/php-hystrix) [![codecov](https://codecov.io/gh/liamsorsby/php-hystrix/branch/master/graph/badge.svg)](https://codecov.io/gh/liamsorsby/php-hystrix)
+[![Build Status](https://travis-ci.com/liamsorsby/php-hystrix.svg?branch=master)](https://travis-ci.com/liamsorsby/php-hystrix) [![codecov](https://codecov.io/gh/liamsorsby/php-hystrix/branch/master/graph/badge.svg)](https://codecov.io/gh/liamsorsby/php-hystrix) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/liamsorsby/php-hystrix/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/liamsorsby/php-hystrix/?branch=master) 
+[![Build Status](https://scrutinizer-ci.com/g/liamsorsby/php-hystrix/badges/build.png?b=master)](https://scrutinizer-ci.com/g/liamsorsby/php-hystrix/build-status/master) [![Code Intelligence Status](https://scrutinizer-ci.com/g/liamsorsby/php-hystrix/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence)
