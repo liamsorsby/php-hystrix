@@ -92,7 +92,7 @@ final class AbstractStorageTest extends TestCase
 
         $underTest = new Apc($this->prefix, $this->threshold, $this->duration);
         $underTest->setStorage($this->apcu);
-        $underTest->reportFailure($this->service, "test");
+        $underTest->reportFailure($this->service);
     }
 
     public function testCallToIsOpenReturnsFalseIfExceptionIsThrown()
@@ -119,6 +119,6 @@ final class AbstractStorageTest extends TestCase
 
         $underTest = new Apc($this->prefix, 0, $this->duration);
         $underTest->setStorage($this->apcu);
-        $underTest->reportFailure($this->service, "test");
+        $underTest->reportFailure($this->service);
     }
 }

@@ -32,13 +32,12 @@ interface StorageInterface
      * Reports a failure scenario to storage handler
      *
      * @param string $service The name of service.
-     * @param string $value   The value of the circuit breaker.
      *
      * @throws \liamsorsby\Hystrix\Storage\StorageException
      *
      * @return void
      */
-    public function reportFailure(string $service, string $value): void;
+    public function reportFailure(string $service): void;
 
     /**
      * Reports if circuit breaker is open or not
