@@ -106,11 +106,10 @@ abstract class AbstractStorage implements StorageInterface
      * Report a failed state to storage
      *
      * @param string $service Name of the lock
-     * @param string $value   String to set the lock too
      *
      * @return void
      */
-    public function reportFailure(string $service, string $value): void
+    public function reportFailure(string $service): void
     {
         $currentCount = $this->getStorage()->get(
             $this->failurePrefix . $service
