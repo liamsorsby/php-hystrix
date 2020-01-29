@@ -28,39 +28,24 @@ namespace liamsorsby\Hystrix\Storage;
  */
 interface StorageInterface
 {
-
     /**
-     * Loads the hystrix status from storage.
-     *
-     * @param string $service The name of the service to load.
-     *
-     * @throws \liamsorsby\Hystrix\Storage\StorageException
-     *
-     * @return bool  value stored value was not found
-     */
-    public function load(string $service);
-
-    /**
-     * Creates a circuit breaker.
+     * Reports a failure scenario to storage handler
      *
      * @param string $service The name of service.
      * @param string $value   The value of the circuit breaker.
-     * @param int    $ttl     The ttl of the circuit breaker.
      *
      * @throws \liamsorsby\Hystrix\Storage\StorageException
+     *
+     * @return void
+     */
+    public function reportFailure(string $service, string $value): void;
+
+    /**
+     * Reports if circuit breaker is open or not
+     *
+     * @param string $service String to determine which service we are checking
      *
      * @return bool
      */
-    public function lock(string $service, string $value, int $ttl): ?bool;
-
-    /**
-     * Creates a circuit breaker.
-     *
-     * @param string $service The name of service.
-     *
-     * @throws \liamsorsby\Hystrix\Storage\StorageException
-     *
-     * @return boolean
-     */
-    public function unlock(string $service): bool;
+    public function isOpen(string $service): bool;
 }
