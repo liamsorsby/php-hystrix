@@ -11,10 +11,9 @@
   ],
   "minimum-stability": "dev",
   "require-dev": {
-    "ext-redis": "^4.2.0",
-    "phploc/phploc": "^4.0 || ^5.0",
-    "phpspec/phpspec": "^3.0 || ^5.0",
-    "phpstan/phpstan": "^0.11.2",
+    "phploc/phploc": "^4.0",
+    "phpspec/phpspec": "^6.0",
+    "phpstan/phpstan": "^0.12.8",
     "phpunit/phpunit": "^8.0",
     "sebastian/phpcpd": "^4.1",
     "sensiolabs/security-checker": "^5.0",
@@ -22,10 +21,10 @@
   },
   "require": {
     "cache/apcu-adapter": "^1.0",
-    "cache/redis-adapter": "master"
+    "cache/redis-adapter": "master",
+    "ext-redis": ">=4.2.0"
   },
   "suggest": {
-    "ext-redis": "^4.2.0",
     "ext-apcu": "^4.2.0"
   },
   "config": {
@@ -36,10 +35,5 @@
     "psr-0": {
       "liamsorsby": "src"
     }
-  },
-  "scripts": {
-    "post-install-cmd": [
-      "security-checker security:check"
-    ]
   }
 }

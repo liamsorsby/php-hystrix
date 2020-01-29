@@ -16,9 +16,9 @@
 
 namespace liamsorsby\Hystrix\Storage\Adapter;
 
-use liamsorsby\Hystrix\Storage\liamsorsby;
 use liamsorsby\Hystrix\Storage\StorageInterface;
 use Cache\Adapter\Common\AbstractCachePool;
+use Psr\SimpleCache\InvalidArgumentException;
 
 /**
  * Class AbstractStorage
@@ -37,6 +37,49 @@ abstract class AbstractStorage implements StorageInterface
      * @var mixed
      */
     protected $storage;
+
+    /**
+     * Failure Prefix
+     *
+     * @var string
+     */
+    protected $failurePrefix;
+
+    /**
+     * Open Prefix
+     *
+     * @var string
+     */
+    protected $openPrefix;
+
+    /**
+     * Circuit Breaker Threshold
+     *
+     * @var int
+     */
+    protected $threshold;
+
+    /**
+     * Circuit Breaker Duration
+     *
+     * @var int
+     */
+    protected $duration;
+
+    /**
+     * AbstractStorage constructor.
+     *
+     * @param string $prefix    String to prefix fail count to prevent collision
+     * @param int    $threshold Max number of failures in given time
+     * @param int    $duration  Duration for threshold to be appended to
+     */
+    public function __construct(string $prefix, int $threshold, int $duration)
+    {
+        $this->failurePrefix = $prefix . 'failcount';
+        $this->openPrefix = $prefix . 'open';
+        $this->duration = $duration;
+        $this->threshold = $threshold;
+    }
 
     /**
      * Abstract function for returning the storage instance
@@ -59,33 +102,63 @@ abstract class AbstractStorage implements StorageInterface
     {
         return $this->storage;
     }
+    /**
+     * Report a failed state to storage
+     *
+     * @param string $service Name of the lock
+     * @param string $value   String to set the lock too
+     *
+     * @return void
+     */
+    public function reportFailure(string $service, string $value): void
+    {
+        $currentCount = $this->getStorage()->get(
+            $this->failurePrefix . $service
+        );
+
+        $newTotal = ((int)$currentCount)+1;
+
+        if (!(bool) $currentCount) {
+            $this->getStorage()->set(
+                $this->failurePrefix . $service,
+                1,
+                $this->duration
+            );
+        } else {
+            $this->getStorage()->set(
+                $this->failurePrefix . $service,
+                $newTotal
+            );
+        }
+
+        if ($newTotal >= $this->threshold) {
+            $this->getStorage()->set(
+                $this->openPrefix . $service,
+                1,
+                $this->duration
+            );
+        }
+    }
+
 
     /**
-     * Load the current state of a circuit breaker.
+     * Check if circuit breaker is open
      *
-     * @param string $service Service name to use for the circuit breaker.
+     * @param string $service Name of service being checked
+     *
+     * @throws InvalidArgumentException
      *
      * @return bool
      */
-    abstract public function load(string $service): bool;
-
-    /**
-     * Acquire a lock within the desired adapter.
-     *
-     * @param string $service Service name to use for the circuit breaker.
-     * @param string $value   Value to save into the storage.
-     * @param int    $ttl     TTL for the current lock.
-     *
-     * @return bool|null
-     */
-    abstract public function lock(string $service, string $value, int $ttl): ?bool;
-
-    /**
-     * Unlock the current lock.
-     *
-     * @param string $service Circuit breaker name.
-     *
-     * @return bool
-     */
-    abstract public function unlock(string $service): bool;
+    public function isOpen(string $service): bool
+    {
+        try {
+            return (bool) $this->getStorage()->get(
+                $this->openPrefix.$service,
+                false
+            );
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
 }

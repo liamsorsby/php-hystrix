@@ -18,9 +18,7 @@ namespace liamsorsby\Hystrix\Storage;
 
 use Cache\Adapter\Apcu\ApcuCachePool;
 use Cache\Adapter\Redis\RedisCachePool;
-use liamsorsby\Hystrix\Storage\Adapter\AbstractStorage;
-use liamsorsby\Hystrix\Storage\Adapter\Apc;
-use liamsorsby\Hystrix\Storage\Adapter\RedisCluster;
+use liamsorsby\Hystrix\Storage\Adapter\{AbstractStorage, Apc, RedisCluster};
 
 /**
  * Class StorageFactory
@@ -35,6 +33,9 @@ class StorageFactory
 {
     public const REDISCLUSTER = 'redis-cluster';
     public const APCU = 'apcu';
+    public const DEFAULT_PREFIX = '';
+    public const DEFAULT_THRESHOLD = 10;
+    public const DEFAULT_DURATION = 500;
 
     /**
      * Creates storage from static factory method
@@ -48,6 +49,8 @@ class StorageFactory
      */
     public function create(string $storage, array $options): AbstractStorage
     {
+        $options = $this->normaliseOptions($options);
+
         switch ($storage) {
         case self::REDISCLUSTER:
             return $this->createRedisClusterAdapter($options);
@@ -69,9 +72,13 @@ class StorageFactory
      *
      * @return RedisCluster
      */
-    public function createRedisClusterAdapter(array $options): RedisCluster
+    protected function createRedisClusterAdapter(array $options): RedisCluster
     {
-        $storage = new RedisCluster();
+        $storage = new RedisCluster(
+            $options['prefix'],
+            $options['threshold'],
+            $options['duration']
+        );
 
         $storage->setStorage(
             $this->createRedisCluster($options)
@@ -89,7 +96,7 @@ class StorageFactory
      *
      * @return RedisCachePool
      */
-    public function createRedisCluster(array $options): RedisCachePool
+    protected function createRedisCluster(array $options): RedisCachePool
     {
         $redis = new \RedisCluster(
             $options['name'],
@@ -109,11 +116,39 @@ class StorageFactory
      *
      * @return Apc
      */
-    public function createApcuAdapter(array $options): Apc
+    protected function createApcuAdapter(array $options): Apc
     {
-        $apc = new Apc();
+        $apc = new Apc(
+            $options['prefix'],
+            $options['threshold'],
+            $options['duration']
+        );
         $apc->setStorage(new ApcuCachePool($options['skipOnCli'] ?? false));
 
         return $apc;
+    }
+
+    /**
+     * Normalise options to return defaults if they aren't set
+     *
+     * @param array $options Options array to be checked
+     *
+     * @return array
+     */
+    protected function normaliseOptions(array $options): array
+    {
+        if (!isset($options['prefix'])) {
+            $options['prefix'] = self::DEFAULT_PREFIX;
+        }
+
+        if (!isset($options['duration'])) {
+            $options['duration'] = self::DEFAULT_DURATION;
+        }
+
+        if (!isset($options['threshold'])) {
+            $options['threshold'] = self::DEFAULT_THRESHOLD;
+        }
+
+        return $options;
     }
 }

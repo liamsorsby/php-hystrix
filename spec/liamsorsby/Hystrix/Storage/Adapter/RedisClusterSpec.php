@@ -11,6 +11,7 @@ class RedisClusterSpec extends ObjectBehavior
 
     function let(RedisCachePool $redisCluster)
     {
+        $this->beConstructedWith('test', 1, 1);
         $this->setStorage($redisCluster);
     }
 
@@ -24,27 +25,13 @@ class RedisClusterSpec extends ObjectBehavior
         $this->getStorage()->shouldBeAnInstanceOf(RedisCachePool::class);
     }
 
-    function it_should_return_true_when_locking(RedisCachePool $redisCluster)
+
+    function it_should_set_open_when_reporting_failure_above_threshold(RedisCachePool $redisCluster)
     {
-        $this->setStorage($redisCluster);
-        $redisCluster->set('service', 'value', ['NX', 'PX' => 1000])->shouldBeCalledOnce();
+        $redisCluster->get('testfailcountservice')->shouldBeCalledOnce();
+        $redisCluster->set('testfailcountservice', 1, 1)->shouldBeCalledOnce();
+        $redisCluster->set('testopenservice', 1, 1)->shouldBeCalledOnce();
 
-        $this->lock('service', 'value', 1000);
-    }
-
-    function it_should_return_true_when_unlocking(RedisCachePool $redisCluster)
-    {
-        $this->setStorage($redisCluster);
-        $redisCluster->delete('service')->shouldBeCalledOnce();
-
-        $this->unlock('service');
-    }
-
-    function it_should_return_true_when_dataset_has_lock_load(RedisCachePool $redisCluster)
-    {
-        $this->setStorage($redisCluster);
-        $redisCluster->get('service')->shouldBeCalledOnce();
-
-        $this->load('service');
+        $this->reportFailure('service', 'value');
     }
 }

@@ -12,6 +12,7 @@ class ApcSpec extends ObjectBehavior
 
     function let(ApcuCachePool $apcu)
     {
+        $this->beConstructedWith('test', 2, 1);
         $this->setStorage($apcu);
     }
 
@@ -25,25 +26,11 @@ class ApcSpec extends ObjectBehavior
         $this->getStorage()->shouldBeAnInstanceOf(AbstractCachePool::class);
     }
 
-    function it_should_return_true_when_locking(ApcuCachePool $apcu)
+    function it_should_return_true_when_reporting_failure(ApcuCachePool $apcu)
     {
-        $this->setStorage($apcu);
-        $apcu->set('service', 'value', 1000)->shouldBeCalledOnce();
+        $apcu->get('testfailcountservice')->shouldBeCalledOnce();
+        $apcu->set('testfailcountservice', 1, 1)->shouldBeCalledOnce();
 
-        $this->lock('service', 'value', 1000);
-    }
-
-    function it_should_return_true_when_unlocking(ApcuCachePool $apcu)
-    {
-        $this->setStorage($apcu);
-        $apcu->delete('service')->shouldBeCalledOnce();
-        $this->unlock('service');
-    }
-
-    function it_should_return_true_when_dataset_has_lock_load(ApcuCachePool $apcu)
-    {
-        $this->setStorage($apcu);
-        $apcu->get('service')->shouldBeCalledOnce();
-        $this->load('service');
+        $this->reportFailure('service', 'value');
     }
 }
