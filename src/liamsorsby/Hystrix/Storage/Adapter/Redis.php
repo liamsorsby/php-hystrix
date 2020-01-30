@@ -1,7 +1,7 @@
 <?php
 
 /**
- * RedisCluster implementation for php-hystrix.
+ * Redis implementation for php-hystrix.
  *
  * PHP version 7.2
  *
@@ -19,7 +19,7 @@ namespace liamsorsby\Hystrix\Storage\Adapter;
 use Cache\Adapter\Redis\RedisCachePool;
 
 /**
- * Class RedisCluster
+ * Class Redis
  *
  * @category Adapter
  * @package  Storage
@@ -27,27 +27,26 @@ use Cache\Adapter\Redis\RedisCachePool;
  * @license  https://www.apache.org/licenses/LICENSE-2.0 Apache
  * @link     https://github.org/liamsorsby/php-hystrix
  */
-class RedisCluster extends AbstractStorage
+class Redis extends AbstractStorage
 {
     /**
      * {@inheritDoc}
      *
      * @param array $options Options required to create the storage instance
      *
-     * @throws \RedisClusterException
-     *
      * @return void
      */
     public function create(array $options): void
     {
-        $redis = new \RedisCluster(
-            $options['name'],
-            $options['seeds'],
-            $options['timeout'] ?? null,
-            $options['readTimeout'] ?? null,
-            $options['persistent'] ?? false
+        $redis = new \Redis();
+        $redis->connect(
+            $options['host'],
+            $options['port'] ?? 6379,
+            $options['timeout'] ?? 0.00,
+            $options['reserved'] ?? null,
+            $options['retryInterval'] ?? 0,
+            $options['readTimeout'] ?? 0.00
         );
-
         $this->setStorage(new RedisCachePool($redis));
     }
 }

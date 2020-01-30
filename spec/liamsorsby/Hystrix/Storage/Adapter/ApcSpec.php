@@ -9,7 +9,6 @@ use PhpSpec\ObjectBehavior;
 
 class ApcSpec extends ObjectBehavior
 {
-
     function let(ApcuCachePool $apcu)
     {
         $this->beConstructedWith('test', 2, 1);
@@ -32,5 +31,11 @@ class ApcSpec extends ObjectBehavior
         $apcu->set('testfailcountservice', 1, 1)->shouldBeCalledOnce();
 
         $this->reportFailure('service', 'value');
+    }
+
+    function it_should_have_a_create_function_that_returns_APC_instance(ApcuCachePool $apcu)
+    {
+        $apcu->beConstructedWith([false]);
+        $this->create([]);
     }
 }

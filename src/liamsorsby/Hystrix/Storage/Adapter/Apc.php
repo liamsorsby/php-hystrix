@@ -16,6 +16,8 @@
 
 namespace liamsorsby\Hystrix\Storage\Adapter;
 
+use Cache\Adapter\Apcu\ApcuCachePool;
+
 /**
  * Class Apc
  *
@@ -27,4 +29,16 @@ namespace liamsorsby\Hystrix\Storage\Adapter;
  */
 class Apc extends AbstractStorage
 {
+    /**
+     * {@inheritDoc}
+     *
+     * @param array $options Options required to create the storage instance
+     *
+     * @return void
+     */
+    public function create(array $options): void
+    {
+        $apc = new ApcuCachePool($options['skipOnCli'] ?? false);
+        $this->setStorage($apc);
+    }
 }
