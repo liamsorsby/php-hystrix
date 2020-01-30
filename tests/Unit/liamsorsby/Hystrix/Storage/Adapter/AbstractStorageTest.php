@@ -36,7 +36,7 @@ final class AbstractStorageTest extends TestCase
         $this->apcu = null;
     }
 
-    public function testGetStorageReturnsAnInstanceOfRedisCluster() :void
+    public function testGetStorageReturnsAnInstanceOfRedisCluster(): void
     {
         $underTest = new Apc($this->prefix, $this->threshold, $this->duration);
         $underTest->setStorage($this->apcu);

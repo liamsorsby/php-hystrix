@@ -118,6 +118,6 @@ class StorageFactoryTest extends TestCase
             ]
         ];
 
-       $factory->create(StorageFactory::MEMCACHED, $options);
+        $factory->create(StorageFactory::MEMCACHED, $options);
     }
 }

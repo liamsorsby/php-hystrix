@@ -38,7 +38,7 @@ class Memcached extends AbstractStorage
      */
     public function create(array $options): void
     {
-        $memcached = new \Memcached;
+        $memcached = new \Memcached();
         $memcached->addServers($options['servers']);
         $this->setStorage(new MemcachedCachePool($memcached));
     }

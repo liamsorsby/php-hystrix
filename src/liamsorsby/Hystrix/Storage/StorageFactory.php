@@ -65,20 +65,20 @@ class StorageFactory
         $options = $this->normaliseOptions($options);
 
         switch ($storage) {
-        case self::APCU:
-            return $this->createApcuAdapter($options);
-        case self::MEMCACHED:
-            return $this->createMemcachedAdapter($options);
-        case self::REDIS:
-            return $this->createRedisAdapter($options);
-        case self::REDIS_ARRAY:
-            return $this->createRedisArrayAdapter($options);
-        case self::REDIS_CLUSTER:
-            return $this->createRedisClusterAdapter($options);
-        default:
-            throw new \InvalidArgumentException(
-                sprintf('Invalid storage provided: %s', $storage)
-            );
+            case self::APCU:
+                return $this->createApcuAdapter($options);
+            case self::MEMCACHED:
+                return $this->createMemcachedAdapter($options);
+            case self::REDIS:
+                return $this->createRedisAdapter($options);
+            case self::REDIS_ARRAY:
+                return $this->createRedisArrayAdapter($options);
+            case self::REDIS_CLUSTER:
+                return $this->createRedisClusterAdapter($options);
+            default:
+                throw new \InvalidArgumentException(
+                    sprintf('Invalid storage provided: %s', $storage)
+                );
         };
     }
 

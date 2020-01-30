@@ -5,9 +5,9 @@ phpunit:
 phpstan:
 	./bin/phpstan analyse src --level 4
 phpcs:
-	./bin/phpcs src
+	./bin/phpcs --standard=PSR12 src tests
 phpcbf:
-	./bin/phpcbf src
+	./bin/phpcbf --standard=PSR12 src tests
 phpcpd:
 	./bin/phpcpd src
 phploc:

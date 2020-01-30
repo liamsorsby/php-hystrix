@@ -118,7 +118,7 @@ abstract class AbstractStorage implements StorageInterface
             $this->failurePrefix . $service
         );
 
-        $newTotal = ((int)$currentCount)+1;
+        $newTotal = ((int)$currentCount) + 1;
 
         if (!(bool) $currentCount) {
             $this->getStorage()->set(
@@ -155,7 +155,7 @@ abstract class AbstractStorage implements StorageInterface
     {
         try {
             return (bool) $this->getStorage()->get(
-                $this->openPrefix.$service,
+                $this->openPrefix . $service,
                 false
             );
         } catch (\Exception $e) {
@@ -171,5 +171,5 @@ abstract class AbstractStorage implements StorageInterface
      *
      * @return void
      */
-    public abstract function create(array $options): void;
+    abstract public function create(array $options): void;
 }
