@@ -102,10 +102,13 @@ abstract class AbstractStorage implements StorageInterface
     {
         return $this->storage;
     }
+
     /**
      * Report a failed state to storage
      *
      * @param string $service Name of the lock
+     *
+     * @throws InvalidArgumentException
      *
      * @return void
      */
@@ -139,7 +142,6 @@ abstract class AbstractStorage implements StorageInterface
         }
     }
 
-
     /**
      * Check if circuit breaker is open
      *
@@ -160,4 +162,14 @@ abstract class AbstractStorage implements StorageInterface
             return false;
         }
     }
+
+    /**
+     * Create function to create instance of
+     * Caching engine.
+     *
+     * @param array $options Options required to create the storage instance
+     *
+     * @return void
+     */
+    public abstract function create(array $options): void;
 }

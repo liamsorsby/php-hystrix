@@ -8,7 +8,10 @@ This is an example repo that provides basic circuit breaking capabilities
 
 ## Supported Caches
 1. APC
-2. RedisCluster
+2. Redis
+3. RedisArray
+4. RedisCluster
+5. Memcached
 
 ## Examples
 

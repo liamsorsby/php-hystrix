@@ -9,11 +9,12 @@ php:
 
 install:
   - echo "extension = redis.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - composer install --no-interaction --prefer-dist
 
 script:
   - ./bin/phpunit -c phpunit.xml --coverage-clover=coverage.xml
-  - ./bin/phpspec run
+  - ./bin/phpspec run --no-interaction
   - ./bin/phpstan analyse src --level 4
   - ./bin/phpcs src
   - ./bin/phpcpd src

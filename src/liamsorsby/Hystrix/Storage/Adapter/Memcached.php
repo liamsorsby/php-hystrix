@@ -1,7 +1,7 @@
 <?php
 
 /**
- * RedisCluster implementation for php-hystrix.
+ * Memcached implementation for php-hystrix.
  *
  * PHP version 7.2
  *
@@ -16,10 +16,10 @@
 
 namespace liamsorsby\Hystrix\Storage\Adapter;
 
-use Cache\Adapter\Redis\RedisCachePool;
+use Cache\Adapter\Memcached\MemcachedCachePool;
 
 /**
- * Class RedisCluster
+ * Class Memcached
  *
  * @category Adapter
  * @package  Storage
@@ -27,27 +27,19 @@ use Cache\Adapter\Redis\RedisCachePool;
  * @license  https://www.apache.org/licenses/LICENSE-2.0 Apache
  * @link     https://github.org/liamsorsby/php-hystrix
  */
-class RedisCluster extends AbstractStorage
+class Memcached extends AbstractStorage
 {
     /**
      * {@inheritDoc}
      *
      * @param array $options Options required to create the storage instance
      *
-     * @throws \RedisClusterException
-     *
      * @return void
      */
     public function create(array $options): void
     {
-        $redis = new \RedisCluster(
-            $options['name'],
-            $options['seeds'],
-            $options['timeout'] ?? null,
-            $options['readTimeout'] ?? null,
-            $options['persistent'] ?? false
-        );
-
-        $this->setStorage(new RedisCachePool($redis));
+        $memcached = new \Memcached;
+        $memcached->addServers($options['servers']);
+        $this->setStorage(new MemcachedCachePool($memcached));
     }
 }

@@ -3,7 +3,7 @@
 namespace spec\liamsorsby\Hystrix\Storage\Adapter;
 
 use Cache\Adapter\Redis\RedisCachePool;
-use liamsorsby\Hystrix\Storage\Adapter\AbstractStorage;
+use liamsorsby\Hystrix\Storage\Adapter\RedisCluster;
 use PhpSpec\ObjectBehavior;
 
 class RedisClusterSpec extends ObjectBehavior
@@ -17,7 +17,7 @@ class RedisClusterSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(AbstractStorage::class);
+        $this->shouldHaveType(RedisCluster::class);
     }
 
     function it_should_return_a_redis_cluster_instance()

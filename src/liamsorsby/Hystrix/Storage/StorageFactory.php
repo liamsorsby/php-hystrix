@@ -16,9 +16,14 @@
 
 namespace liamsorsby\Hystrix\Storage;
 
-use Cache\Adapter\Apcu\ApcuCachePool;
-use Cache\Adapter\Redis\RedisCachePool;
-use liamsorsby\Hystrix\Storage\Adapter\{AbstractStorage, Apc, RedisCluster};
+use liamsorsby\Hystrix\Storage\Adapter\{
+    AbstractStorage,
+    Apc,
+    Memcached,
+    RedisCluster,
+    Redis,
+    RedisArray
+};
 
 /**
  * Class StorageFactory
@@ -31,8 +36,16 @@ use liamsorsby\Hystrix\Storage\Adapter\{AbstractStorage, Apc, RedisCluster};
  */
 class StorageFactory
 {
-    public const REDISCLUSTER = 'redis-cluster';
-    public const APCU = 'apcu';
+    // Caching constants
+    public const APCU          = 'apcu';
+    public const MEMCACHED     = 'memcached';
+    public const REDIS         = 'redis';
+    public const REDIS_ARRAY   = 'redis-array';
+    public const REDIS_CLUSTER = 'redis-cluster';
+
+    /*
+     * Default config for Circuit Breaker
+     */
     public const DEFAULT_PREFIX = '';
     public const DEFAULT_THRESHOLD = 10;
     public const DEFAULT_DURATION = 500;
@@ -52,15 +65,41 @@ class StorageFactory
         $options = $this->normaliseOptions($options);
 
         switch ($storage) {
-        case self::REDISCLUSTER:
-            return $this->createRedisClusterAdapter($options);
         case self::APCU:
             return $this->createApcuAdapter($options);
+        case self::MEMCACHED:
+            return $this->createMemcachedAdapter($options);
+        case self::REDIS:
+            return $this->createRedisAdapter($options);
+        case self::REDIS_ARRAY:
+            return $this->createRedisArrayAdapter($options);
+        case self::REDIS_CLUSTER:
+            return $this->createRedisClusterAdapter($options);
         default:
             throw new \InvalidArgumentException(
                 sprintf('Invalid storage provided: %s', $storage)
             );
         };
+    }
+
+    /**
+     * Create Memcached Adapter.
+     *
+     * @param array $options Options to be passed to the memcached adapter.
+     *
+     * @return Memcached
+     */
+    protected function createMemcachedAdapter(array $options)
+    {
+        $memcached = new Memcached(
+            $options['prefix'],
+            $options['threshold'],
+            $options['duration']
+        );
+
+        $memcached->create($options);
+
+        return $memcached;
     }
 
     /**
@@ -74,39 +113,59 @@ class StorageFactory
      */
     protected function createRedisClusterAdapter(array $options): RedisCluster
     {
-        $storage = new RedisCluster(
+        $redis = new RedisCluster(
             $options['prefix'],
             $options['threshold'],
             $options['duration']
         );
 
-        $storage->setStorage(
-            $this->createRedisCluster($options)
-        );
+        $redis->create($options);
 
-        return $storage;
+        return $redis;
     }
 
     /**
-     * Build Redis Cluster Config
+     * Create Redis Array Adapter.
      *
-     * @param array $options Options to be passed to the redis cluster.
+     * @param array $options Options to be passed to the redis cluster adapter.
+     *
+     * @throws \RedisException
+     *
+     * @return RedisArray
+     */
+    protected function createRedisArrayAdapter(array $options): RedisArray
+    {
+        $redis = new RedisArray(
+            $options['prefix'],
+            $options['threshold'],
+            $options['duration']
+        );
+
+        $redis->create($options);
+
+        return $redis;
+    }
+
+    /**
+     * Create Redis Cluster Adapter.
+     *
+     * @param array $options Options to be passed to the redis cluster adapter.
      *
      * @throws \RedisClusterException
      *
-     * @return RedisCachePool
+     * @return Redis
      */
-    protected function createRedisCluster(array $options): RedisCachePool
+    protected function createRedisAdapter(array $options): Redis
     {
-        $redis = new \RedisCluster(
-            $options['name'],
-            $options['seeds'],
-            $options['timeout'] ?? null,
-            $options['readTimeout'] ?? null,
-            $options['persistent'] ?? false
+        $redis = new Redis(
+            $options['prefix'],
+            $options['threshold'],
+            $options['duration']
         );
 
-        return new RedisCachePool($redis);
+        $redis->create($options);
+
+        return $redis;
     }
 
     /**
@@ -123,7 +182,8 @@ class StorageFactory
             $options['threshold'],
             $options['duration']
         );
-        $apc->setStorage(new ApcuCachePool($options['skipOnCli'] ?? false));
+
+        $apc->create($options);
 
         return $apc;
     }
