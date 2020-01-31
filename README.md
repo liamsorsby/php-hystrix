@@ -29,3 +29,5 @@ try {
     // log error from $e->getMessage()
 }
 ```
+
+More examples can be found in the [examples directory](examples)
